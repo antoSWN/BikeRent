@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: common_header}"></head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <div class="card shadow mb-4">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4>Riepilogo Corsa</h4>
+                </div>
+                <div class="card-body text-center">
+                    <h1 class="display-4 text-primary">
+                        <span th:text="${kmPercorsi}">0</span> <small class="fs-6 text-muted">km</small>
+                    </h1>
+                    <p class="lead">Hai percorso <span th:text="${kmPercorsi}">0</span> km.</p>
+                    <hr>
+                    <h3>Totale da pagare: <span class="fw-bold" th:text="${#numbers.formatDecimal(totale, 1, 2)}">0.00</span> €</h3>
+                </div>
+            </div>
+
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Completa il pagamento</h5>
+
+                    <form th:action="@{/effettua-pagamento}" method="post">
+                        <input type="hidden" name="importo" th:value="${totale}">
+
+                        <div class="mb-3">
+                            <label class="form-label">Metodo di Pagamento</label>
+                            <select name="metodo" class="form-select" id="metodoSelect" onchange="toggleCarta()">
+                                <option value="contanti">Contanti</option>
+                                <option value="carta">Carta di Credito</option>
+                                <option value="bancomat">Bancomat</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3" id="divCarta" style="display:none;">
+                            <label class="form-label">Numero Carta</label>
+                            <input type="text" name="numeroCarta" class="form-control" placeholder="XXXX-XXXX-XXXX-XXXX">
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success btn-lg">PAGA ORA</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleCarta() {
+        var select = document.getElementById("metodoSelect");
+        var divCarta = document.getElementById("divCarta");
+        if (select.value === "carta" || select.value === "bancomat") {
+            divCarta.style.display = "block";
+        } else {
+            divCarta.style.display = "none";
+        }
+    }
+</script>
+
+<div th:replace="~{fragments/scripts :: common_scripts}"></div>
+</body>
+</html>

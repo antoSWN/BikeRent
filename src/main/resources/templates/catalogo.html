@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: common_header}"></head>
+
+<body class="bg-light">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="/">
+            <i class="fas fa-bicycle me-2"></i>BikeRent
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav align-items-center">
+                <li class="nav-item"><a class="nav-link active" href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="/catalogo">Catalogo</a></li>
+
+                <li class="nav-item ms-3" th:if="${session.utenteLoggato == null}">
+                    <a th:href="@{/login}" class="btn btn-primary btn-sm px-3">Accedi</a>
+                </li>
+
+                <li class="nav-item ms-3 dropdown" th:if="${session.utenteLoggato != null}">
+                    <a class="nav-link dropdown-toggle text-white bg-primary rounded px-3" href="#" role="button" data-bs-toggle="dropdown">
+                        Ciao, <span th:text="${session.nomeVisualizzato}">Utente</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+
+                        <li>
+                            <a class="dropdown-item"
+                               th:href="${session.ruolo == 'ADMIN'} ? @{/admin/dashboard} : @{/client/home}">
+                                Area Personale
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <a class="dropdown-item text-danger" th:href="@{/logout}">Logout</a>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<section class="py-5 text-center container">
+    <div class="row py-lg-3">
+        <div class="col-lg-6 col-md-8 mx-auto">
+            <h1 class="fw-light">Il Nostro Parco Bici</h1>
+            <p class="lead text-muted">Scegli tra la comodità delle nostre bici da <b>Passeggio</b> o la velocità dei modelli da <b>Corsa</b>.</p>
+        </div>
+    </div>
+</section>
+
+<div class="container pb-5">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+
+        <div class="col" th:each="bici : ${listaBici}">
+            <div class="card shadow-sm h-100 border-0 hover-effect">
+
+                <img th:src="'https://placehold.co/600x400/343a40/FFF?text=' + ${bici.modello}"
+                     class="card-img-top" alt="Foto Bici">
+
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="badge rounded-pill"
+                                  th:classappend="${bici.categoria == 'Corsa' ? 'bg-danger' : 'bg-success'}"
+                                  th:text="${bici.categoria}">
+                                  Categoria
+                            </span>
+
+                        <small th:if="${bici.disponibile}" class="text-success fw-bold">
+                            <i class="fas fa-check-circle"></i> Disponibile
+                        </small>
+                        <small th:unless="${bici.disponibile}" class="text-danger fw-bold">
+                            <i class="fas fa-times-circle"></i> Noleggiata
+                        </small>
+                    </div>
+
+                    <h5 class="card-title fw-bold" th:text="${bici.modello}">Modello Bici</h5>
+                    <p class="card-text text-muted small">
+                        Ideale per i tuoi spostamenti. Manutenzione effettuata regolarmente.
+                    </p>
+
+                    <div class="d-flex justify-content-between align-items-end mt-4">
+                        <div>
+                            <span class="text-muted small">Tariffa</span>
+                            <h3 class="mb-0 text-dark">
+                                <span th:text="${bici.tariffaOraria}">0</span>€ <small class="fs-6">/h</small>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer bg-white border-top-0 pb-4 pt-0">
+                    <div class="d-grid" th:if="${bici.disponibile}">
+                        <a th:if="${session.utenteLoggato == null}"
+                           th:href="@{/login}"
+                           class="btn btn-outline-primary">
+                            Prenota Ora
+                        </a>
+
+                        <a th:if="${session.utenteLoggato != null}"
+                           th:href="@{/noleggio/prenota/{id}(id=${bici.id})}"
+                           class="btn btn-primary">
+                            Prenota Ora
+                        </a>
+                    </div>
+
+                    <div class="d-grid" th:unless="${bici.disponibile}">
+                        <button class="btn btn-secondary" disabled>Non Disponibile</button>
+                    </div>
+                </div>
+
+            </div>
+        </div> </div> </div>
+
+<style>
+    .hover-effect { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .hover-effect:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+    }
+</style>
+
+<div th:replace="~{fragments/scripts :: common_scripts}"></div>
+
+</body>
+</html>

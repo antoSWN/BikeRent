@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: common_header}"></head>
+
+<body>
+<div class="container mt-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Gestione Tariffe Orarie</h2>
+        <a th:href="@{/admin/dashboard}" class="btn btn-outline-secondary">Torna alla Dashboard</a>
+    </div>
+
+    <div class="table-responsive shadow rounded">
+        <table class="table table-hover align-middle">
+            <thead class="table-dark">
+            <tr>
+                <th>Modello</th>
+                <th>Categoria</th>
+                <th>Tariffa Attuale</th>
+                <th>Nuova Tariffa</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="bici : ${listaBici}">
+                <td th:text="${bici.modello}">Modello X</td>
+                <td><span class="badge bg-info text-dark" th:text="${bici.categoria}">City</span></td>
+                <td th:text="${bici.tariffaOraria} + ' €'">10.0 €</td>
+
+                <td>
+                    <form th:action="@{/admin/update-tariffs}" method="post" class="d-flex">
+                        <input type="hidden" name="idBici" th:value="${bici.id}">
+
+                        <input type="number" step="0.5" name="prezzo"
+                               class="form-control form-control-sm"
+                               th:value="${bici.tariffaOraria}" style="width: 100px;">
+
+                        <button type="submit" class="btn btn-sm btn-primary ms-2">Salva</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div th:replace="~{fragments/scripts :: common_scripts}"></div>
+</body>
+</html>

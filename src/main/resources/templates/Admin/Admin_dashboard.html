@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: common_header}"></head>
+
+<body>
+
+<nav class="navbar navbar-dark bg-dark mb-4">
+    <div class="container d-flex align-items-center justify-content-between">
+
+        <span class="navbar-brand mb-0 h1">Admin Dashboard</span>
+
+        <a href="/" class="btn btn-outline-light btn-sm">Vedi Sito Client</a>
+    </div>
+</nav>
+
+<div class="container">
+
+    <div class="row text-center mb-5">
+        <div class="col-md-4">
+            <div class="card p-3 mb-2">
+                <h5>Gestione Bici</h5>
+                <a th:href="@{/admin/add-bike}" class="btn btn-primary">Aggiungi Bici</a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-3 mb-2">
+                <h5>Gestione Accessori</h5>
+                <a th:href="@{/admin/add-equip}" class="btn btn-warning">Aggiungi Equip.</a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-3 mb-2">
+                <h5>Economia</h5>
+                <a th:href="@{/admin/update-tariffs}" class="btn btn-success">Aggiorna Tariffe</a>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <h3 class="mb-3">Statistiche di Utilizzo Bici</h3>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Bicicletta</th>
+                            <th>Totale Utilizzi</th>
+                            <th>Popolarità (Grafico)</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="bici : ${listaBici}">
+                            <td th:text="${bici.modello}">Modello</td>
+                            <td th:text="${bici.numeroUtilizzi}">0</td>
+                            <td style="width: 50%;">
+                                <div class="progress">
+                                    <div class="progress-bar bg-info" role="progressbar"
+                                         th:style="'width: ' + (${bici.numeroUtilizzi} * 5) + '%'"
+                                         th:text="${bici.numeroUtilizzi} + ' noleggi'">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="alert alert-light mt-3">
+                        <small>
+                            * Nota: Per vedere le percentuali per Categoria, bisognerà implementare
+                            un calcolo aggregato nel Service (es. Totale City Bike vs Totale Mountain Bike).
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div th:replace="~{fragments/scripts :: common_scripts}"></div>
+</body>
+</html>

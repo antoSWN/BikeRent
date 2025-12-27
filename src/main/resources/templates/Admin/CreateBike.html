@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: common_header}"></head>
+
+<body>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3>Aggiungi Nuova Bicicletta</h3>
+                </div>
+                <div class="card-body">
+
+                    <form th:action="@{/admin/add-bike}" th:object="${nuovaBici}" method="post">
+
+                        <div class="mb-3">
+                            <label class="form-label">Modello Bici</label>
+                            <input type="text" class="form-control" th:field="*{modello}" placeholder="Es. Mountain Bike X200" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Categoria</label>
+                            <select class="form-select" th:field="*{categoria}">
+                                <option value="City Bike">City Bike</option>
+                                <option value="Mountain Bike">Mountain Bike</option>
+                                <option value="E-Bike">E-Bike</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Tariffa Oraria (€)</label>
+                            <input type="number" step="0.50" class="form-control" th:field="*{tariffaOraria}" placeholder="Es. 5.00" required>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success">Salva Bicicletta</button>
+                            <a th:href="@{/admin/dashboard}" class="btn btn-secondary">Annulla</a>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/scripts :: common_scripts}"></div>
+</body>
+</html>

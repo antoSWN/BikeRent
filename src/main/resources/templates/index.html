@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: common_header}"></head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="#">🚴 BikeRent</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHome">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarHome">
+            <ul class="navbar-nav align-items-center">
+
+                <li class="nav-item" th:if="${session.utenteLoggato == null}">
+                    <a th:href="@{/login}" class="btn btn-outline-primary me-2">Accedi</a>
+                </li>
+
+                <li class="nav-item dropdown" th:if="${session.utenteLoggato != null}">
+                    <a class="btn btn-primary dropdown-toggle d-flex align-items-center gap-2" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-user-circle"></i> <span>Ciao, <span th:text="${session.nomeVisualizzato}">User</span></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <a class="dropdown-item"
+                               th:href="@{${session.ruolo == 'ADMIN' ? '/admin/dashboard' : '/client/home'}}">
+                                Area Personale
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-danger" th:href="@{/logout}">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="px-4 py-5 my-5 text-center">
+    <h1 class="display-5 fw-bold">Noleggia la tua libertà</h1>
+    <div class="col-lg-6 mx-auto">
+        <p class="lead mb-4">Scopri la città con le nostre biciclette premium. Tariffe orarie convenienti e zero stress.</p>
+
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+
+            <a th:href="@{${session.utenteLoggato == null ? '/login' : '/catalogo'}}"
+               class="btn btn-primary btn-lg px-4 gap-3">
+                Noleggia Ora
+            </a>
+
+            <a th:href="@{/catalogo}" class="btn btn-outline-secondary btn-lg px-4">Vedi Catalogo</a>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/scripts :: common_scripts}"></div>
+</body>
+</html>

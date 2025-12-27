@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: common_header}"></head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+    <div class="container">
+        <a class="navbar-brand fw-bold" th:href="@{/}">
+            <i class="fas fa-bicycle me-2"></i>BikeRent UserArea
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav align-items-center">
+                <li class="nav-item me-3 text-white">
+                    Benvenuto, <span class="fw-bold">Mario Rossi</span>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-light btn-sm" th:href="@{/logout}">Logout <i class="fas fa-sign-out-alt ms-1"></i></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-5">
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="border-bottom pb-2">La tua Dashboard</h2>
+        </div>
+    </div>
+
+    <div class="card border-success shadow-sm mb-3"
+         th:if="${!noleggiAttivi.isEmpty()}"
+         th:each="noleggio : ${noleggiAttivi}">
+
+        <div class="card-header bg-success text-white">
+            <i class="fas fa-stopwatch me-2"></i>Noleggio in Corso
+        </div>
+        <div class="card-body">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h5 class="card-title" th:text="${noleggio.bicicletta.modello}">Nome Bici</h5>
+                    <p class="card-text text-muted mb-1">Stato: In uso</p>
+                    <p class="small text-muted">Categoria: <span th:text="${noleggio.bicicletta.categoria}">Cat</span></p>
+                    <p class="small text-muted">Iniziato il: <span th:text="${#temporals.format(noleggio.dataInizio, 'dd-MM-yyyy HH:mm')}">Data</span></p>
+                </div>
+                <div class="col-md-4 text-end">
+
+                    <a th:href="@{/client/termina-corsa/{id}(id=${noleggio.id})}" class="btn btn-danger btn-lg">
+                        <i class="fas fa-flag-checkered me-2"></i>Termina e Paga
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="alert alert-info" th:if="${noleggiAttivi.isEmpty()}">
+        Nessun noleggio attivo al momento.
+    </div>
+
+    <div class="row g-4 mt-2">
+        <div class="col-md-4">
+            <div class="card h-100 text-center shadow-sm border-0 hover-effect">
+                <div class="card-body py-5">
+                    <i class="fas fa-bicycle fa-4x text-primary mb-3"></i>
+                    <h4 class="card-title">Nuovo Noleggio</h4>
+                    <p class="card-text text-muted">Sfoglia il nostro catalogo e trova la bici perfetta per te oggi.</p>
+                </div>
+                <div class="card-footer bg-white border-0 pb-4">
+                    <a th:href="@{/catalogo}" class="btn btn-primary w-75 stretched-link">Sfoglia Catalogo</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/scripts :: common_scripts}"></div>
+</body>
+</html>

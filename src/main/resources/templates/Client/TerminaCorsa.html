@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: common_header}"></head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow border-0">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0"><i class="fas fa-bicycle me-2"></i>Restituzione Bici</h4>
+                </div>
+                <div class="card-body p-4">
+
+                    <div class="alert alert-warning text-center">
+                        <h4 class="alert-heading">Riepilogo Corsa</h4>
+                        <p class="mb-0">Hai percorso: <strong th:text="${kmFatti} + ' Km'"></strong></p>
+                        <hr>
+                        <h3>Totale: <span class="fw-bold text-danger" th:text="'€ ' + ${importoStimato}"></span></h3>
+                    </div>
+
+                    <form th:action="@{/noleggio/chiudi}" method="post" id="paymentForm">
+
+                        <input type="hidden" name="idNoleggio" th:value="${noleggio.id}">
+                        <input type="hidden" name="kmPercorsi" th:value="${kmFatti}">
+
+                        <div class="mb-3">
+                            <label for="idParcheggio" class="form-label fw-bold">Parcheggio di destinazione:</label>
+                            <select name="idParcheggio" id="idParcheggio" class="form-select" required>
+                                <option value="" disabled selected>Seleziona parcheggio...</option>
+                                <option th:each="p : ${listaParcheggi}"
+                                        th:value="${p.id}"
+                                        th:text="${p.nome}"></option>
+                            </select>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <h5 class="mb-3">Dati Pagamento</h5>
+                        <div class="mb-3">
+                            <label class="form-label">Scegli metodo:</label>
+                            <select name="metodoPagamento" class="form-select" id="metodoPagamento" onchange="gestisciMetodoPagamento()">
+                                <option value="carta">Carta di Credito</option>
+                                <option value="bancomat">Bancomat</option> <option value="contanti">Contanti</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3" id="divCarta">
+                            <label for="numeroCarta" class="form-label">Numero Carta / Bancomat</label>
+                            <input type="text" name="numeroCarta" id="numeroCarta" class="form-control" placeholder="0000-0000-0000-0000">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 btn-lg">Conferma Restituzione</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function gestisciMetodoPagamento() {
+        var select = document.getElementById("metodoPagamento");
+        var divCarta = document.getElementById("divCarta");
+        var inputCarta = document.getElementById("numeroCarta");
+
+        if (select.value === "contanti") {
+            divCarta.style.display = "none";
+            inputCarta.required = false;
+        } else {
+            divCarta.style.display = "block";
+            inputCarta.required = true;
+        }
+    }
+</script>
+
+</body>
+</html>
