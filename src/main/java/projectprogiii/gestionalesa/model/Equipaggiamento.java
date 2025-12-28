@@ -14,10 +14,10 @@ public class Equipaggiamento {
     private Long id;
 
     private String nome; // es. "Casco", "Lucchetto"
-    private double prezzo;
+    private Integer quantitaDisponibile;
 
-    public  Equipaggiamento(String nome, double prezzo) {
+    public  Equipaggiamento(String nome, Integer quantitaDisponibile) {
         this.nome = nome;
-        this.prezzo = prezzo;
+        this.quantitaDisponibile = quantitaDisponibile;
     }
 }

@@ -81,9 +81,10 @@ public class DataSeeder {
 
             // --- STEP 3: EQUIPAGGIAMENTI ---
             if (equipRepo.count() == 0) {
+                System.out.println("Salvataggio Equipaggiamenti di base...");
                 equipRepo.saveAll(Arrays.asList(
-                        new Equipaggiamento("Casco Protettivo", 2.0),
-                        new Equipaggiamento("Seggiolino Bimbo", 5.0)
+                        new Equipaggiamento("Casco Protettivo", 5),
+                        new Equipaggiamento("Seggiolino Bimbo", 5)
                 ));
             }
         };

@@ -41,28 +41,52 @@
 
                     <div class="card bg-light mb-4 border-0">
                         <div class="card-body">
-                            <h5 class="card-title mb-3"><i class="fas fa-tools me-2"></i>Aggiungi Equipaggiamento</h5>
+                            <h5 class="card-title mb-3">
+                                <i class="fas fa-tools me-2"></i>Aggiungi Equipaggiamento (Gratuito)
+                            </h5>
+
                             <div class="row">
-                                <div class="col-md-6" th:each="equip : ${listaEquipaggiamenti}">
-                                    <div class="form-check">
+                                <div class="col-md-6 mb-2" th:each="equip : ${listaEquipaggiamenti}">
+
+                                    <div class="form-check" th:if="${equip.quantitaDisponibile > 0}">
                                         <input class="form-check-input" type="checkbox"
                                                name="equipaggiamentiIds"
                                                th:value="${equip.id}"
                                                th:id="'eq_' + ${equip.id}">
-                                        <label class="form-check-label" th:for="'eq_' + ${equip.id}">
+
+                                        <label class="form-check-label" th:attr="for='eq_' + ${equip.id}">
                                             <span th:text="${equip.nome}">Casco</span>
+                                            <span class="badge bg-success rounded-pill ms-2" style="font-size: 0.7em;">Disponibile</span>
                                         </label>
                                     </div>
+
+                                    <div class="form-check" th:unless="${equip.quantitaDisponibile > 0}">
+                                        <input class="form-check-input" type="checkbox" disabled>
+                                        <label class="form-check-label text-muted" style="text-decoration: line-through;">
+                                            <span th:text="${equip.nome}">Casco</span>
+                                        </label>
+                                        <span class="badge bg-danger ms-2">Esaurito</span>
+                                        <small class="d-block text-danger" style="font-size: 0.75rem;">
+                                            Non disponibile al momento.
+                                        </small>
+                                    </div>
+
                                 </div>
+
                                 <div class="col-12 text-muted small mt-2" th:if="${listaEquipaggiamenti.isEmpty()}">
-                                    Nessun equipaggiamento extra disponibile al momento.
+                                    Nessun equipaggiamento extra disponibile in questo parcheggio.
                                 </div>
+                            </div>
+
+                            <div class="alert alert-secondary mt-3 p-2 small">
+                                <i class="fas fa-info-circle me-1"></i>
+                                Puoi procedere anche senza equipaggiamento extra, ma ricorda che la sicurezza è importante!
                             </div>
                         </div>
                     </div>
 
                     <div class="text-start mb-4">
-                        <h5 class="mb-3"><i class="fas fa-bell me-2"></i>Conferma Prenotazione</h5>
+                        <h5 class="mb-3">Conferma Prenotazione</h5>
 
                         <div class="row g-3">
                             <div class="col-md-6">

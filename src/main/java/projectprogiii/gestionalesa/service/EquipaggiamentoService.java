@@ -23,6 +23,35 @@ public class EquipaggiamentoService {
         equipRepo.save(equip);
     }
 
+    public void salvaOAggiorna(Equipaggiamento equipInput) {
+        // 1. Cerco se esiste già qualcosa con lo stesso nome
+        var equipEsistenteOpt = equipRepo.findByNomeIgnoreCase(equipInput.getNome().trim());
+
+        if (equipEsistenteOpt.isPresent()) {
+            // CASO A: Esiste già -> AGGIORNO LA QUANTITÀ
+            Equipaggiamento equipEsistente = equipEsistenteOpt.get();
+
+            int quantitaVecchia = (equipEsistente.getQuantitaDisponibile() == null) ? 0 : equipEsistente.getQuantitaDisponibile();
+            int quantitaNuovaDaAggiungere = (equipInput.getQuantitaDisponibile() == null) ? 0 : equipInput.getQuantitaDisponibile();
+
+            // Sommo: quello che c'era + quello che ha inserito l'admin
+            equipEsistente.setQuantitaDisponibile(quantitaVecchia + quantitaNuovaDaAggiungere);
+
+            // (Opzionale) Se vuoi aggiornare anche la descrizione o l'immagine se sono cambiate:
+            // equipEsistente.setDescrizione(equipInput.getDescrizione());
+
+            equipRepo.save(equipEsistente);
+
+        } else {
+            // CASO B: Non esiste -> CREO NUOVO
+            // Mi assicuro che la quantità non sia null
+            if (equipInput.getQuantitaDisponibile() == null) {
+                equipInput.setQuantitaDisponibile(0);
+            }
+            equipRepo.save(equipInput);
+        }
+    }
+
     public List<Equipaggiamento> findAll() {
         return equipRepo.findAll();
     }

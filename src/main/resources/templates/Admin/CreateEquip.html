@@ -16,16 +16,21 @@
 
                         <div class="mb-3">
                             <label class="form-label">Nome Accessorio</label>
-                            <input type="text" class="form-control" th:field="*{nome}" placeholder="Es. Casco, Seggiolino..." required>
+                            <input type="text" class="form-control" th:field="*{nome}"
+                                   placeholder="Es. Casco, Seggiolino..." required>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Prezzo (€)</label>
-                            <input type="number" step="0.50" class="form-control" th:field="*{prezzo}" required>
+                            <label class="form-label">Quantità da aggiungere al magazzino</label>
+                            <input type="number" min="1" class="form-control"
+                                   th:field="*{quantitaDisponibile}" required>
+                            <div class="form-text text-muted">
+                                Se l'accessorio esiste già, questa quantità verrà sommata a quella esistente.
+                            </div>
                         </div>
 
                         <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-warning">Aggiungi Accessorio</button>
+                            <button type="submit" class="btn btn-warning">Salva Equipaggiamento</button>
                             <a th:href="@{/admin/dashboard}" class="btn btn-secondary">Annulla</a>
                         </div>
                     </form>
