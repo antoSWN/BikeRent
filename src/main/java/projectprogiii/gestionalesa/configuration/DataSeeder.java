@@ -80,6 +80,7 @@ public class DataSeeder {
             }
 
             // --- STEP 3: EQUIPAGGIAMENTI ---
+            //prova push da dispositivo personale
             if (equipRepo.count() == 0) {
                 System.out.println("Salvataggio Equipaggiamenti di base...");
                 equipRepo.saveAll(Arrays.asList(
