@@ -14,10 +14,10 @@ public class Bicicletta {
     private Long id;
 
     private String modello;      // Es. "Bianchi X500"
-    private String categoria;    // Es. "Corsa", "Passeggio" (Qui useremo la Factory dopo!)
+    private String categoria;    // Es. "Corsa", "Passeggio" (Qui useremo il pattern Factory)
     private double tariffaOraria;
     private boolean disponibile; // True = in parcheggio, False = noleggiata
-    private int numeroUtilizzi;
+    private int numeroUtilizzi; // utile per le statistiche
 
     @ManyToOne
     @JoinColumn(name = "parcheggio_id")

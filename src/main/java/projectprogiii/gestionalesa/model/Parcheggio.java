@@ -1,6 +1,7 @@
 package projectprogiii.gestionalesa.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,6 +16,8 @@ public class Parcheggio {
 
     private String nome;
     private String indirizzo;
+
+    @Min(value = 1, message = "La capienza deve essere di almeno 10 posti")
     private int capienza;
 
     public Parcheggio(String nome, String indirizzo, int capienza) {
