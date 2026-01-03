@@ -50,7 +50,70 @@ public class Bicicletta {
 }
 ```
 
-### IDK
+### Design Patterns 
+
+I pattern utilizzati sono i seguenti due : 
+
+- **Factory Pattern**
+
+Il Factory Pattern definisce un'interfaccia per creare un oggetto, ma lascia alle sottoclassi la decisione su quale classe istanziare.
+
+Abbiamo utilizzato questo pattern per gestire il sistema di Notifiche. Il sistema è progettato per inviare conferme (ad esempio via Email o SMS) senza che il codice principale debba conoscere i dettagli tecnici dell'invio.
+
+Struttura file : 
+
+- **Interfaccia** : pattern/ServizioNotifica.java
+  - definisce il metodo inviaConferma()
+
+- **Prodotti concreti**
+  - pattern/concretes/EmailNotifica.java --> implementa l'invio via Email
+  - pattern/concretes/SmsNotifica.java   --> implementa l'invio via SMS
+
+- **Factory astratta** 
+  - pattern/factories/NotificaFactory.java
+
+- **Factory Concrete**
+  - pattern/factories/EmailFactory.java 
+  - pattern/factories/SmsFactory.java
+
+Se in futuro volessimo aggiungere altri metodi, basterà creare una nuova classe nella cartella concretes e factories
+
+- **Strategy Pattern**
+
+Lo Strategy Pattern definisce una famiglia di algoritmi, li incapsula separatamente e li rende intercambiabili.
+
+È stato applicato per la gestione dei Pagamenti. Un utente può scegliere di pagare con metodi diversi (Carta di Credito, Contanti, ecc.) e il sistema adatta il calcolo o la procedura di pagamento dinamicamente.
+
+Struttura file : 
+
+- **Interfaccia Strategy**
+  - strategy/IPaymentStrategy.java
+    - definisce il metodo paga()
+- **Strategie concrete**
+  - strategy/CreditCardStrategy.java (logica per il pagamento con carta)
+  - strategy/CashStrategy.java
+- **Context**
+  - strategy/PaymentContext.java
+    - Questa classe riceve la strategia scelta e la esegue
+
+Perchè tutto questo anzichè un semplice switch case? 
+
+La risposta in breve è --> per rispettare uno dei principi SOLID : **Open/Closed**
+
+Che recità sostanzialemnte che "le entità software dovrebbero essere aperte per l'estensione ma chiuse per le modifiche."
+
+Infatti, se in futuro dobbiamo aggiungere un metodo di pagamento nuovo, es. Bitcoin,
+senza questo design pattern dobbiamo aprire il file NoleggioService.java, cercare l'if e modificarlo.
+
+Col design pattern, creiamo una nuova strategy, lo passiamo al context e non tocchiamo codice già esistente.
+
+
+
+
+
+
+
+
 
 
 

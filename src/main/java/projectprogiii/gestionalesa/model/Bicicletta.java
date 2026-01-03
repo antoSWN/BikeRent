@@ -19,12 +19,12 @@ public class Bicicletta {
     private boolean disponibile; // True = in parcheggio, False = noleggiata
     private int numeroUtilizzi; // utile per le statistiche
 
+    // Una biciletta risiede in un solo parcheggio
     @ManyToOne
     @JoinColumn(name = "parcheggio_id")
     private Parcheggio parcheggio;
 
-    // --- COSTRUTTORI ---
-
+    // --- COSTRUTTORE ---
     public Bicicletta(String modello, String categoria, double tariffaOraria, int numeroUtilizzi) {
         this.modello = modello;
         this.categoria = categoria;

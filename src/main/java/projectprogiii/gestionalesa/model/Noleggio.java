@@ -17,10 +17,10 @@ public class Noleggio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "L'username non può essere vuoto")
     private String username;
     private Double kmPercorsi; // se non abbiamo percorso km, sarà null, non 0.0.
 
+    // Durante il noleggio, l'utente può selezionare degli equipaggiamenti disponibili
     @ManyToMany
     @JoinTable(
             name = "noleggio_equipaggiamento",
