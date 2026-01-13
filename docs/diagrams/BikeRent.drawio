@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36" version="29.3.1" pages="3">
   <diagram name="Models" id="GEIDDsIe8XbuSYkXCjt6">
-    <mxGraphModel dx="1472" dy="813" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1491" dy="691" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -120,14 +120,11 @@
             <mxPoint x="12" y="-31" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="YUNXRqvVB_pL-W95F3J3-67" parent="1" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;labelBackgroundColor=none;rounded=0;" value="Diagramma UML&lt;div&gt;delle classi&lt;/div&gt;" vertex="1">
-          <mxGeometry height="40" width="100" x="375" y="550" as="geometry" />
-        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
   <diagram name="Strategy" id="1PM71hNFbV4C0sRyRblJ">
-    <mxGraphModel dx="-228" dy="813" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="-209" dy="691" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="jcQ2Ep3Jay216gV3WIrR-0" />
         <mxCell id="jcQ2Ep3Jay216gV3WIrR-1" parent="jcQ2Ep3Jay216gV3WIrR-0" />
@@ -197,9 +194,6 @@
             <mxPoint x="2440" y="534" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="jcQ2Ep3Jay216gV3WIrR-72" parent="jcQ2Ep3Jay216gV3WIrR-1" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;labelBackgroundColor=none;rounded=0;" value="Strategy Pattern" vertex="1">
-          <mxGeometry height="40" width="100" x="2570" y="354" as="geometry" />
-        </mxCell>
         <mxCell id="jcQ2Ep3Jay216gV3WIrR-73" parent="jcQ2Ep3Jay216gV3WIrR-1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=10;labelBackgroundColor=none;" value="Context" vertex="1">
           <mxGeometry height="30" width="60" x="2275" y="464" as="geometry" />
         </mxCell>
@@ -216,7 +210,7 @@
     </mxGraphModel>
   </diagram>
   <diagram name="Factory Method" id="riqlfXh0h5bt4xnHThW3">
-    <mxGraphModel dx="401" dy="691" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="641" dy="691" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="PUsJCVOH8b1vH7ga481v-0" />
         <mxCell id="PUsJCVOH8b1vH7ga481v-1" parent="PUsJCVOH8b1vH7ga481v-0" />
@@ -300,9 +294,6 @@
             <mxPoint x="1660" y="858" as="sourcePoint" />
             <mxPoint x="1820" y="858" as="targetPoint" />
           </mxGeometry>
-        </mxCell>
-        <mxCell id="PUsJCVOH8b1vH7ga481v-52" parent="PUsJCVOH8b1vH7ga481v-1" style="text;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;labelBackgroundColor=none;rounded=0;" value="Factory Method" vertex="1">
-          <mxGeometry height="40" width="100" x="1450" y="370" as="geometry" />
         </mxCell>
         <mxCell id="PUsJCVOH8b1vH7ga481v-77" parent="PUsJCVOH8b1vH7ga481v-1" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;rounded=0;fontSize=10;labelBackgroundColor=none;" value="Factory" vertex="1">
           <mxGeometry height="30" width="60" x="1760" y="480" as="geometry" />
