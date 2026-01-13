@@ -27,6 +27,7 @@ public class AdminController {
 
     @GetMapping("/dashboard")
     public String showDashboard(Model model) {
+
         // 1. Recupera Equipaggiamenti (con il fix anti-null)
         List<Equipaggiamento> equipList = equipService.findAll();
         if (equipList == null) equipList = new ArrayList<>();

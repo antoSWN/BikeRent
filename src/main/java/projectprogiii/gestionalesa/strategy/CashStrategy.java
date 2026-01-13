@@ -1,5 +1,6 @@
 package projectprogiii.gestionalesa.strategy;
 
+// ConcreteStrategyX
 public class CashStrategy implements IPaymentStrategy {
 
     @Override

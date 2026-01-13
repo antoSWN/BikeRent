@@ -1,5 +1,6 @@
 package projectprogiii.gestionalesa.strategy;
 
+// ConcreteStrategyX
 public class CreditCardStrategy implements IPaymentStrategy {
     private String cardNumber;
 

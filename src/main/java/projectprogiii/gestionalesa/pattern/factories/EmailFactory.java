@@ -4,9 +4,10 @@ import projectprogiii.gestionalesa.pattern.NotificaFactory;
 import projectprogiii.gestionalesa.pattern.ServizioNotifica;
 import projectprogiii.gestionalesa.pattern.concretes.EmailNotifica;
 
-public class EmailFactory implements NotificaFactory {
+// Concrete Factory
+public class EmailFactory extends NotificaFactory {
     @Override
-    public ServizioNotifica creaNotifica() {
+    protected ServizioNotifica creaNotifica() {
         return new EmailNotifica();
     }
 }

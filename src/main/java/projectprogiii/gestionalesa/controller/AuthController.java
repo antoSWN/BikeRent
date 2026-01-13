@@ -25,12 +25,13 @@ public class AuthController {
         return "redirect:/login?logout";
     }
 
-    // 3. (OPZIONALE) GESTIONE LOGIN MANUALE
-    // Se non usi Spring Security, ti serve un metodo per controllare user/pass
+    // 3. GESTIONE LOGIN MANUALE
     @PostMapping("/login")
-    public String elaboraLogin(@RequestParam String username,
-                               @RequestParam String password,
-                               HttpSession session) {
+    public String elaboraLogin(
+            @RequestParam String username,
+            @RequestParam String password,
+            HttpSession session
+    ) {
 
         if ("admin".equals(username) && "admin".equals(password)) {
             session.setAttribute("utenteLoggato", "admin");

@@ -15,6 +15,7 @@ import projectprogiii.gestionalesa.repository.BiciclettaRepository;
 import projectprogiii.gestionalesa.repository.EquipaggiamentoRepository;
 import projectprogiii.gestionalesa.repository.NoleggioRepository;
 import projectprogiii.gestionalesa.repository.ParcheggioRepository;
+import projectprogiii.gestionalesa.strategy.CashStrategy;
 import projectprogiii.gestionalesa.strategy.CreditCardStrategy;
 import projectprogiii.gestionalesa.strategy.PaymentContext;
 
@@ -54,9 +55,11 @@ public class NoleggioService {
         Bicicletta bici = biciRepo.findById(biciId)
                 .orElseThrow(() -> new RuntimeException("Bicicletta non trovata"));
 
-        if (!bici.isDisponibile()) {
-            throw new RuntimeException("La bicicletta risulta già occupata!");
-        }
+        // --- [STATE PATTERN] ---
+        // Non controlliamo più manualmente "if (!bici.isDisponibile)".
+        // Chiamiamo il metodo che delega allo Stato Corrente.
+        // Se la bici è già occupata, questo metodo lancerà RuntimeException da solo.
+        bici.tentaNoleggio();
 
         // 1. Creazione Oggetto Noleggio
         Noleggio noleggio = new Noleggio();
@@ -95,13 +98,12 @@ public class NoleggioService {
         // 4. Aggiornamento Bici (non più disponibile e senza parcheggio)
         bici.setDisponibile(false);
         bici.setParcheggio(null);
-        biciRepo.save(bici);
+        biciRepo.save(bici); // Questo salverà anche la stringa "NOLEGGIATA" nel DB
 
         // 5. INVIO NOTIFICA (Factory Pattern)
         inviaNotifica(tipoNotifica, recapitoUtente, bici.getId());
     }
 
-    // Metodo helper privato per pulire il codice principale
     private void inviaNotifica(String tipoNotifica, String recapito, Long idBici) {
         try {
             NotificaFactory factory;
@@ -110,8 +112,9 @@ public class NoleggioService {
             } else {
                 factory = new EmailFactory();
             }
-            ServizioNotifica servizio = factory.creaNotifica();
-            servizio.inviaConferma(recapito, "Noleggio avviato con successo! ID Bici: " + idBici);
+
+            // Chiamo il metodo della classe astratta
+            factory.mandaNotifica(recapito, "Noleggio avviato con successo! ID Bici: " + idBici);
         } catch (Exception e) {
             // Logghiamo l'errore ma NON blocchiamo il noleggio se l'email fallisce
             System.err.println("Errore invio notifica: " + e.getMessage());
@@ -119,7 +122,7 @@ public class NoleggioService {
     }
 
     // -------------------------------------------------------------------------
-    // 3. TERMINA NOLEGGIO (Strategy Pattern per il pagamento)
+    // 3. TERMINA NOLEGGIO (Strategy Pattern + STATE Pattern)
     // -------------------------------------------------------------------------
     @Transactional // Fondamentale per garantire il ripristino dello stock
     public void terminaNoleggio(Long idNoleggio, String username, Long parcheggioId, String tipoPagamento, String numeroCarta, Double kmPercorsi) {
@@ -156,22 +159,30 @@ public class NoleggioService {
 
         // 5. Riposizionamento Bici nel nuovo parcheggio
         Bicicletta bici = noleggio.getBicicletta();
-        bici.setDisponibile(true);
+
+        // --- [STATE PATTERN] ---
+        // Deleghiamo allo stato corrente (che è Noleggiata) il compito di "tornare disponibile".
+        // Questo imposterà internamente lo stato a Disponibile e il flag booleano a true.
+        bici.tentaRestituzione();
+
+        // bici.setDisponibile(true); NON PIU !!!! STATE RISOLVE.
         bici.setParcheggio(parcheggioFinale);
-        biciRepo.save(bici);
+        biciRepo.save(bici); // Salverà la stringa "DISPONIBILE" nel DB
     }
 
     // Metodo helper privato per la Strategy
     private void eseguiPagamento(String tipoPagamento, String numeroCarta, double importo) {
         PaymentContext context = new PaymentContext();
 
+        // equalsIgnoreCase() confronta due stringhe ignorando completamente la differenza tra maiuscole e minuscole
         if ("carta".equalsIgnoreCase(tipoPagamento) || "bancomat".equalsIgnoreCase(tipoPagamento)) {
+            // Carta o Bancomat
+            System.out.println("Utente paga in digitale.");
             context.setStrategy(new CreditCardStrategy(numeroCarta));
         } else {
-            // Fallback per contanti o altro
-            System.out.println("Utente paga in contanti o metodo non tracciato.");
-            // Usiamo una strategia dummy o logghiamo solamente
-            context.setStrategy(new CreditCardStrategy("CONTANTI"));
+            // Contanti
+            System.out.println("Utente paga in contanti.");
+            context.setStrategy(new CashStrategy());
         }
 
         context.executePayment(importo);

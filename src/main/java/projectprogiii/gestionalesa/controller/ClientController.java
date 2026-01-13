@@ -40,6 +40,7 @@ public class ClientController {
     // MOSTRA LA PAGINA DI CHIUSURA
     @GetMapping("/termina-corsa/{idNoleggio}")
     public String mostraTerminaCorsa(@PathVariable Long idNoleggio, HttpSession session, Model model) {
+
         String username = (String) session.getAttribute("utenteLoggato");
 
         // Recuperiamo QUEL noleggio specifico per mostrarne i dettagli (costo parziale, bici, ecc)
@@ -50,10 +51,10 @@ public class ClientController {
             return "redirect:/client/home";
         }
 
-        // 2. CALCOLO PREZZO STIMATO
+        // CALCOLO PREZZO STIMATO
         // --- SIMULAZIONE KM E CALCOLO COSTO ---
 
-        // 1. Genera Km casuali tra 1.0 e 15.0
+        // Genera Km casuali tra 1.0 e 15.0
         double kmSimulati = 1.0 + (Math.random() * 14.0);
 
         // 2. Recupera la tariffa della bici (ipotizziamo sia Euro al Km ora)

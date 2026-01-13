@@ -20,7 +20,6 @@ public class NoleggioController {
     @Autowired
     private BiciclettaService biciService;
 
-    // Se usi la repo direttamente va bene, altrimenti usa il service se ha un metodo findAll()
     @Autowired
     private EquipaggiamentoRepository equipRepo;
 
@@ -29,29 +28,31 @@ public class NoleggioController {
 
     // 1. MOSTRA FORM DI CONFERMA
     @GetMapping("/prenota/{idBici}")
-    public String mostraConfermaPrenotazione(@PathVariable Long idBici,
-                                             HttpSession session,
-                                             Model model,
-                                             @RequestParam(required = false) String error) { // Gestione errore URL
+    public String mostraConfermaPrenotazione(
+            @PathVariable Long idBici,
+            HttpSession session,
+            Model model,
+            @RequestParam(required = false) String error
+    ) {
 
-        // A. Controllo Login
+        // Controllo Login
         if (session.getAttribute("utenteLoggato") == null) {
             return "redirect:/login";
         }
 
-        // B. Recupero dati
+        // Recupero dati
         Bicicletta bici = biciService.getBiciclettaById(idBici);
 
-        // C. Controllo Validità
+        // Controllo Validità
         if (bici == null || !bici.isDisponibile()) {
             return "redirect:/catalogo?error=nonDisponibile";
         }
 
-        // D. Passaggio dati alla View
+        // Passaggio dati alla View
         model.addAttribute("listaEquipaggiamenti", equipRepo.findAll());
         model.addAttribute("bici", bici);
 
-        // E. Se c'è un errore (es. arrivato dal catch sotto), lo mostriamo
+        // E. Se c'è un errore lo mostriamo
         if (error != null) {
             model.addAttribute("errorMessage", error);
         }
@@ -65,7 +66,7 @@ public class NoleggioController {
             @RequestParam Long idBici,
             @RequestParam String tipoNotifica,
             @RequestParam String recapito,
-            @RequestParam(required = false) List<Long> equipaggiamentiIds,
+            @RequestParam(required = false) List<Long> equipaggiamentiIds, // non obbligatorio
             HttpSession session,
             RedirectAttributes redirectAttributes // Per passare messaggi dopo il redirect
     ) {
@@ -82,8 +83,10 @@ public class NoleggioController {
             return "redirect:/client/home";
 
         } catch (RuntimeException e) {
-            // ERRORE (es. Casco finito mentre cliccavi): Ritorna alla pagina di prenotazione
+
+            // ERRORE
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+
             // Torniamo alla pagina di conferma specifica per quella bici
             return "redirect:/noleggio/prenota/" + idBici;
         }
