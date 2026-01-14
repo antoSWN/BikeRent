@@ -3,6 +3,9 @@ package projectprogiii.gestionalesa.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional; // IMPORTANTE
+import projectprogiii.gestionalesa.builder.NoleggioBuilder;
+import projectprogiii.gestionalesa.builder.NoleggioDirector;
+import projectprogiii.gestionalesa.builder.StandardNoleggioBuilder;
 import projectprogiii.gestionalesa.model.Bicicletta;
 import projectprogiii.gestionalesa.model.Equipaggiamento;
 import projectprogiii.gestionalesa.model.Noleggio;
@@ -47,7 +50,7 @@ public class NoleggioService {
     }
 
     // -------------------------------------------------------------------------
-    // 2. INIZIA NOLEGGIO (Factory Method Pattern per le notifiche)
+    // 2. INIZIA NOLEGGIO (Factory Method + Builder Pattern)
     // -------------------------------------------------------------------------
     @Transactional // Se qualcosa fallisce (es. db down), annulla tutte le modifiche fatte qui dentro
     public void iniziaNoleggio(Long biciId, String username, String tipoNotifica, String recapitoUtente, List<Long> equipaggiamentiIds) {
@@ -61,13 +64,7 @@ public class NoleggioService {
         // Se la bici è già occupata, questo metodo lancerà RuntimeException da solo.
         bici.tentaNoleggio();
 
-        // 1. Creazione Oggetto Noleggio
-        Noleggio noleggio = new Noleggio();
-        noleggio.setBicicletta(bici);
-        noleggio.setUsername(username);
-        noleggio.setDataInizio(LocalDateTime.now());
-
-        // 2. GESTIONE EQUIPAGGIAMENTI E STOCK (Decremento)
+        // GESTIONE EQUIPAGGIAMENTI E STOCK (Decremento)
         List<Equipaggiamento> equipScelti = new ArrayList<>();
 
         if (equipaggiamentiIds != null && !equipaggiamentiIds.isEmpty()) {
@@ -89,18 +86,31 @@ public class NoleggioService {
                     throw new RuntimeException("L'articolo '" + eq.getNome() + "' è appena terminato!");
                 }
             }
-            noleggio.setEquipaggiamenti(equipScelti);
         }
 
-        // 3. Salvataggio Noleggio
+        // --- [BUILDER PATTERN GoF] ---
+
+        // Istanzio il ConcreteBuilder
+        NoleggioBuilder builder = new StandardNoleggioBuilder();
+
+        // Istanzio il Director passandogli il builder
+        NoleggioDirector director = new NoleggioDirector(builder);
+
+        // Il Director costruisce l'oggetto passo dopo passo
+        director.costruisciNoleggio(username, bici, equipScelti);
+
+        // Recupero il prodotto finito dal Builder
+        Noleggio noleggio = builder.getNoleggio();
+
+        // Salvataggio Noleggio
         noleggioRepository.save(noleggio);
 
-        // 4. Aggiornamento Bici (non più disponibile e senza parcheggio)
+        // Aggiornamento Bici (non più disponibile e senza parcheggio)
         bici.setDisponibile(false);
         bici.setParcheggio(null);
         biciRepo.save(bici); // Questo salverà anche la stringa "NOLEGGIATA" nel DB
 
-        // 5. INVIO NOTIFICA (Factory Pattern)
+        // INVIO NOTIFICA (Factory Pattern)
         inviaNotifica(tipoNotifica, recapitoUtente, bici.getId());
     }
 
