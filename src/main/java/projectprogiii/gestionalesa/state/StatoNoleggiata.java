@@ -2,6 +2,7 @@ package projectprogiii.gestionalesa.state;
 
 import projectprogiii.gestionalesa.model.Bicicletta;
 
+// StateTwo
 public class StatoNoleggiata implements StatoBicicletta {
     @Override
     public void noleggia(Bicicletta bici) {

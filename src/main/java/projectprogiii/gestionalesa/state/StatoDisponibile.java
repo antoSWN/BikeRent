@@ -2,12 +2,13 @@ package projectprogiii.gestionalesa.state;
 
 import projectprogiii.gestionalesa.model.Bicicletta;
 
+// StateOne
 public class StatoDisponibile implements StatoBicicletta {
     @Override
     public void noleggia(Bicicletta bici) {
         // Transizione valida: Cambio stato e setto il flag booleano
         System.out.println("Bici noleggiata con successo.");
-        bici.setStatoCorrente(new StatoNoleggiata());
+        bici.setStatoCorrente(new StatoNoleggiata()); // context.setState(StateTwo)
         bici.setDisponibile(false);
     }
 

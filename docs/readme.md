@@ -15,5 +15,5 @@ Il progetto segue i principi SOLID e utilizza i seguenti pattern della Gang of F
 ## 🚀 Tecnologie utilizzate
 * Java 17+ (linguaggio)
 * Spring Boot / Spring Data JPA (framework)
-* Database H2 (In-memory)
+* Database H2
 * Maven (packages)
