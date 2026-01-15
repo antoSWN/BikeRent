@@ -64,6 +64,10 @@ public class NoleggioService {
         // Se la bici è già occupata, questo metodo lancerà RuntimeException da solo.
         bici.tentaNoleggio();
 
+        // Incrementiamo il contatore di utilizzi per le statistiche Admin
+        int utilizziAttuali = bici.getNumeroUtilizzi();
+        bici.setNumeroUtilizzi(utilizziAttuali + 1);
+
         // GESTIONE EQUIPAGGIAMENTI E STOCK (Decremento)
         List<Equipaggiamento> equipScelti = new ArrayList<>();
 
@@ -105,9 +109,6 @@ public class NoleggioService {
         // Salvataggio Noleggio
         noleggioRepository.save(noleggio);
 
-        // Aggiornamento Bici (non più disponibile e senza parcheggio)
-        bici.setDisponibile(false);
-        bici.setParcheggio(null);
         biciRepo.save(bici); // Questo salverà anche la stringa "NOLEGGIATA" nel DB
 
         // INVIO NOTIFICA (Factory Pattern)
@@ -135,7 +136,7 @@ public class NoleggioService {
     // 3. TERMINA NOLEGGIO (Strategy Pattern + STATE Pattern)
     // -------------------------------------------------------------------------
     @Transactional // Fondamentale per garantire il ripristino dello stock
-    public void terminaNoleggio(Long idNoleggio, String username, Long parcheggioId, String tipoPagamento, String numeroCarta, Double kmPercorsi) {
+    public void terminaNoleggio(Long idNoleggio, String username, Long parcheggioId, String tipoPagamento, String numeroCarta, Double oreUtilizzo) {
 
         Noleggio noleggio = findById(idNoleggio);
         if (noleggio == null) throw new RuntimeException("Noleggio non trovato");
@@ -156,14 +157,14 @@ public class NoleggioService {
 
         // 2. Calcolo Importo (Strategy Preparation)
         double tariffa = noleggio.getBicicletta().getTariffaOraria(); // Assumiamo tariffa/km come da tua logica precedente
-        double importo = kmPercorsi * tariffa;
+        double importo = oreUtilizzo * tariffa;
 
         // 3. Esecuzione Pagamento (Strategy Pattern)
         eseguiPagamento(tipoPagamento, numeroCarta, importo);
 
         // 4. Salvataggio dati finali del noleggio
         noleggio.setDataFine(LocalDateTime.now());
-        noleggio.setKmPercorsi(kmPercorsi);
+        noleggio.setOreUtilizzo(oreUtilizzo);
         noleggio.setCostoTotale(importo);
         noleggioRepository.save(noleggio);
 

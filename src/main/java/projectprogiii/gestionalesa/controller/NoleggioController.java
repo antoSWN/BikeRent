@@ -99,7 +99,7 @@ public class NoleggioController {
             @RequestParam Long idParcheggio,
             @RequestParam String numeroCarta,
             @RequestParam String metodoPagamento,
-            @RequestParam Double kmPercorsi,
+            @RequestParam Double oreUtilizzo,
             HttpSession session,
             RedirectAttributes redirectAttributes
     ) {
@@ -108,7 +108,7 @@ public class NoleggioController {
         if (username == null) return "redirect:/login";
 
         try {
-            noleggioService.terminaNoleggio(idNoleggio, username, idParcheggio, metodoPagamento, numeroCarta, kmPercorsi);
+            noleggioService.terminaNoleggio(idNoleggio, username, idParcheggio, metodoPagamento, numeroCarta, oreUtilizzo);
 
             redirectAttributes.addFlashAttribute("successMessage", "Noleggio terminato e pagato con successo!");
             return "redirect:/client/home";

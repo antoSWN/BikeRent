@@ -27,7 +27,6 @@
                         Ciao, <span th:text="${session.nomeVisualizzato}">Utente</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
-
                         <li>
                             <a class="dropdown-item"
                                th:href="${session.ruolo == 'ADMIN'} ? @{/admin/dashboard} : @{/client/home}">
@@ -40,7 +39,6 @@
                         </li>
                     </ul>
                 </li>
-
             </ul>
         </div>
     </div>
@@ -66,11 +64,11 @@
 
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="badge rounded-pill"
-                                  th:classappend="${bici.categoria == 'Corsa' ? 'bg-danger' : 'bg-success'}"
-                                  th:text="${bici.categoria}">
-                                  Categoria
-                            </span>
+                        <span class="badge rounded-pill"
+                              th:classappend="${bici.categoria == 'Corsa' ? 'bg-danger' : 'bg-success'}"
+                              th:text="${bici.categoria}">
+                              Categoria
+                        </span>
 
                         <small th:if="${bici.disponibile}" class="text-success fw-bold">
                             <i class="fas fa-check-circle"></i> Disponibile
@@ -81,11 +79,18 @@
                     </div>
 
                     <h5 class="card-title fw-bold" th:text="${bici.modello}">Modello Bici</h5>
-                    <p class="card-text text-muted small">
+
+                    <p class="card-text text-muted small mb-2">
                         Ideale per i tuoi spostamenti. Manutenzione effettuata regolarmente.
                     </p>
 
-                    <div class="d-flex justify-content-between align-items-end mt-4">
+                    <div class="mb-3" th:if="${bici.parcheggio != null}">
+                        <small class="text-muted">
+                            <i class="fas fa-map-marker-alt text-primary me-1"></i>
+                            Si trova a: <strong class="text-dark" th:text="${bici.parcheggio.nome}">Parcheggio</strong>
+                        </small>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-end mt-2">
                         <div>
                             <span class="text-muted small">Tariffa</span>
                             <h3 class="mb-0 text-dark">
@@ -116,7 +121,9 @@
                 </div>
 
             </div>
-        </div> </div> </div>
+        </div>
+    </div>
+</div>
 
 <style>
     .hover-effect { transition: transform 0.3s ease, box-shadow 0.3s ease; }

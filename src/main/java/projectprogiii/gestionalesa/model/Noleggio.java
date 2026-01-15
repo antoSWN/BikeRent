@@ -18,7 +18,7 @@ public class Noleggio {
     private Long id;
 
     private String username;
-    private Double kmPercorsi; // se non abbiamo percorso km, sarà null, non 0.0.
+    private Double oreUtilizzo; // se non abbiamo percorso km, sarà null, non 0.0.
 
     // Durante il noleggio, l'utente può selezionare degli equipaggiamenti disponibili
     @ManyToMany

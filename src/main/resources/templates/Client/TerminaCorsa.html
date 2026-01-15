@@ -14,7 +14,7 @@
 
                     <div class="alert alert-warning text-center">
                         <h4 class="alert-heading">Riepilogo Corsa</h4>
-                        <p class="mb-0">Hai percorso: <strong th:text="${kmFatti} + ' Km'"></strong></p>
+                        <p class="mb-0">Durata noleggio: <strong th:text="${oreUtilizzo} + ' Ore'"></strong></p>
                         <hr>
                         <h3>Totale: <span class="fw-bold text-danger" th:text="'€ ' + ${importoStimato}"></span></h3>
                     </div>
@@ -22,7 +22,7 @@
                     <form th:action="@{/noleggio/chiudi}" method="post" id="paymentForm">
 
                         <input type="hidden" name="idNoleggio" th:value="${noleggio.id}">
-                        <input type="hidden" name="kmPercorsi" th:value="${kmFatti}">
+                        <input type="hidden" name="oreUtilizzo" th:value="${oreUtilizzo}">
 
                         <div class="mb-3">
                             <label for="idParcheggio" class="form-label fw-bold">Parcheggio di destinazione:</label>
@@ -41,13 +41,21 @@
                             <label class="form-label">Scegli metodo:</label>
                             <select name="metodoPagamento" class="form-select" id="metodoPagamento" onchange="gestisciMetodoPagamento()">
                                 <option value="carta">Carta di Credito</option>
-                                <option value="bancomat">Bancomat</option> <option value="contanti">Contanti</option>
+                                <option value="bancomat">Bancomat</option>
+                                <option value="contanti">Contanti</option>
                             </select>
                         </div>
 
                         <div class="mb-3" id="divCarta">
                             <label for="numeroCarta" class="form-label">Numero Carta / Bancomat</label>
-                            <input type="text" name="numeroCarta" id="numeroCarta" class="form-control" placeholder="0000-0000-0000-0000">
+                            <input type="text" name="numeroCarta" id="numeroCarta"
+                                   class="form-control"
+                                   placeholder="0000-0000-0000-0000"
+                                   maxlength="19"
+                                   minlength="19"
+                                   pattern="[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}"
+                                   title="Inserisci esattamente 16 cifre">
+                            <div class="form-text text-muted small">Inserisci le 16 cifre riportate sulla carta.</div>
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100 btn-lg">Conferma Restituzione</button>
@@ -59,6 +67,7 @@
 </div>
 
 <script>
+    // 1. Funzione esistente per nascondere/mostrare il campo
     function gestisciMetodoPagamento() {
         var select = document.getElementById("metodoPagamento");
         var divCarta = document.getElementById("divCarta");
@@ -67,11 +76,31 @@
         if (select.value === "contanti") {
             divCarta.style.display = "none";
             inputCarta.required = false;
+            inputCarta.value = ""; // Pulisce il campo se cambi idea
         } else {
             divCarta.style.display = "block";
             inputCarta.required = true;
         }
     }
+
+    // 2. NUOVO SCRIPT: Formattazione automatica Carta di Credito
+    document.getElementById('numeroCarta').addEventListener('input', function (e) {
+        let input = e.target;
+
+        // Rimuovi tutto ciò che non è un numero
+        let numero = input.value.replace(/\D/g, '');
+
+        // Limita a 16 cifre reali (senza contare i trattini)
+        if (numero.length > 16) {
+            numero = numero.substring(0, 16);
+        }
+
+        // Aggiungi i trattini ogni 4 cifre
+        // Regex: Prende gruppi di 4 caratteri e li unisce con un trattino
+        let numeroFormattato = numero.match(/.{1,4}/g)?.join('-') || numero;
+
+        input.value = numeroFormattato;
+    });
 </script>
 
 </body>

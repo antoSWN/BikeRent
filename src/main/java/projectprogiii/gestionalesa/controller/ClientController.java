@@ -52,19 +52,19 @@ public class ClientController {
         }
 
         // CALCOLO PREZZO STIMATO
-        // --- SIMULAZIONE KM E CALCOLO COSTO ---
+        // --- SIMULAZIONE ORE E CALCOLO COSTO ---
 
-        // Genera Km casuali tra 1.0 e 15.0
-        double kmSimulati = 1.0 + (Math.random() * 14.0);
+        // Genera ORE casuali (es. tra 0.5 e 4.0 ore)
+        double oreSimulate = 0.5 + (Math.random() * 3.5);
 
-        // 2. Recupera la tariffa della bici (ipotizziamo sia Euro al Km ora)
+        // Recupera la tariffa della bici (ipotizziamo sia Euro al Km ora)
         double tariffaPerKm = noleggio.getBicicletta().getTariffaOraria(); // Usiamo questo campo come tariffa km
 
-        // 3. Calcola importo
-        double importoDaPagare = kmSimulati * tariffaPerKm;
+        // Calcolo importo
+        double importoDaPagare = oreSimulate * tariffaPerKm;
 
         // Formattiamo per avere solo 2 decimali (es. "4.50")
-        model.addAttribute("kmFatti", String.format("%.1f", kmSimulati).replace(',', '.'));
+        model.addAttribute("oreUtilizzo", String.format("%.1f", oreSimulate).replace(',', '.'));
         model.addAttribute("importoStimato", String.format("%.2f", importoDaPagare).replace(',', '.'));
 
         model.addAttribute("noleggio", noleggio);

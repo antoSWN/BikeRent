@@ -10,6 +10,7 @@ public class StatoDisponibile implements StatoBicicletta {
         System.out.println("Bici noleggiata con successo.");
         bici.setStatoCorrente(new StatoNoleggiata()); // context.setState(StateTwo)
         bici.setDisponibile(false);
+        bici.setParcheggio(null);
     }
 
     @Override
