@@ -19,12 +19,26 @@
                             <input type="text" class="form-control" th:field="*{modello}" placeholder="Es. Mountain Bike X200" required>
                         </div>
 
-                        <div class="mb-3">
+                        <div class="mb-3" >
                             <label class="form-label">Categoria</label>
                             <select class="form-select" th:field="*{categoria}">
-                                <option value="City Bike">City Bike</option>
+                                <option value="Passeggio">Passeggio</option>
+                                <option value="Corsa">Corsa</option>
                                 <option value="Mountain Bike">Mountain Bike</option>
                                 <option value="E-Bike">E-Bike</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Parcheggio di Assegnazione</label>
+                            <select class="form-select" th:field="*{parcheggio}" required>
+                                <option value="" selected disabled>-- Seleziona un parcheggio --</option>
+
+                                <option th:each="p : ${listaParcheggi}"
+                                        th:value="${p.id}"
+                                        th:text="${p.nome} + ' (' + ${p.indirizzo} + ')'">
+                                    Nome Parcheggio
+                                </option>
                             </select>
                         </div>
 

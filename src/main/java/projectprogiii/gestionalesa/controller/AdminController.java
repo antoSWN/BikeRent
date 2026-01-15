@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes; // Importante per i messaggi
 import projectprogiii.gestionalesa.model.Bicicletta;
 import projectprogiii.gestionalesa.model.Equipaggiamento;
+import projectprogiii.gestionalesa.repository.ParcheggioRepository;
 import projectprogiii.gestionalesa.service.BiciclettaService;
 import projectprogiii.gestionalesa.service.EquipaggiamentoService;
 
@@ -24,6 +25,9 @@ public class AdminController {
 
     @Autowired
     private EquipaggiamentoService equipService;
+
+    @Autowired
+    private ParcheggioRepository parkRepo;
 
     @GetMapping("/dashboard")
     public String showDashboard(Model model) {
@@ -65,6 +69,7 @@ public class AdminController {
     @GetMapping("/add-bike")
     public String showAddBikeForm(Model model) {
         model.addAttribute("nuovaBici", new Bicicletta());
+        model.addAttribute("listaParcheggi", parkRepo.findAll());
         return "Admin/CreateBike";
     }
 

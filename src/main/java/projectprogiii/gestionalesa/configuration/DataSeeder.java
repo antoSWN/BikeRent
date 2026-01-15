@@ -55,25 +55,29 @@ public class DataSeeder {
 
                 List<Bicicletta> biciDaSalvare = new ArrayList<>();
 
-                // Bici 1
+                // 1. Categoria: PASSEGGIO
                 Bicicletta b1 = new Bicicletta("Bianchi Spillo", "Passeggio", 4.0, 12);
-                b1.setParcheggio(pBrin); // Qui passi l'OGGETTO intero (che ora ha l'ID valido)
+                b1.setParcheggio(pBrin);
                 biciDaSalvare.add(b1);
 
-                // Bici 2
                 Bicicletta b2 = new Bicicletta("Atala Città", "Passeggio", 3.5, 5);
-                b2.setParcheggio(pBrin); // Stesso parcheggio
+                b2.setParcheggio(pBrin);
                 biciDaSalvare.add(b2);
 
-                // Bici 3
+                // 2. Categoria: CORSA
                 Bicicletta b3 = new Bicicletta("Pinarello Dogma", "Corsa", 15.0, 3);
-                b3.setParcheggio(pMorelli); // Altro parcheggio
+                b3.setParcheggio(pMorelli);
                 biciDaSalvare.add(b3);
 
-                // Bici 4
-                Bicicletta b4 = new Bicicletta("Legnano City", "Passeggio", 4.0, 0);
+                // 3. Categoria: E-BIKE
+                Bicicletta b4 = new Bicicletta("Nilox X5", "E-Bike", 8.0, 7);
                 b4.setParcheggio(pSuper);
                 biciDaSalvare.add(b4);
+
+                // 4. Categoria: MOUNTAIN BIKE
+                Bicicletta b5 = new Bicicletta("Rockrider ST", "Mountain Bike", 6.0, 2);
+                b5.setParcheggio(pSuper);
+                biciDaSalvare.add(b5);
 
                 // Salvataggio finale delle bici
                 biciRepo.saveAll(biciDaSalvare);
