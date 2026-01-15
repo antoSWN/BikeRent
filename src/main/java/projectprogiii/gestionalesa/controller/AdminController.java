@@ -70,6 +70,15 @@ public class AdminController {
 
     @PostMapping("/add-bike")
     public String saveBike(@ModelAttribute Bicicletta bici, RedirectAttributes redirectAttributes) {
+        // 1. Impostiamo la bici come disponibile
+        bici.setDisponibile(true);
+
+        // 2. Impostiamo lo stato stringa per il DB (fondamentale per lo State Pattern!)
+        bici.setStatoDB("DISPONIBILE");
+
+        // 3. Inizializziamo il contatore utilizzi a 0
+        bici.setNumeroUtilizzi(0);
+
         biciService.salvaBicicletta(bici);
         redirectAttributes.addFlashAttribute("successMessage", "Bicicletta aggiunta con successo!");
         return "redirect:/admin/dashboard";
