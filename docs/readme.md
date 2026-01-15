@@ -13,7 +13,7 @@ Il progetto segue i principi SOLID e utilizza i seguenti pattern della Gang of F
 * **Builder**: Costruzione complessa dell'oggetto Noleggio tramite Director.
 
 ## 🚀 Tecnologie utilizzate
-* Java 17+ (linguaggio)
+* Java 25 (linguaggio)
 * Spring Boot / Spring Data JPA (framework)
-* Database H2
+* Database H2 
 * Maven (packages)
