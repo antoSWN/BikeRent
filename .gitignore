@@ -4,6 +4,14 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+# Ignora i file del database H2
+*.db
+*.mv.db
+*.trace.db
+
+# Ignora l'intera cartella data (se contiene solo il DB)
+/data/
+
 ### STS ###
 .apt_generated
 .classpath
